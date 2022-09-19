@@ -1,0 +1,22 @@
+{
+  "name": "vuebirds",
+  "version": "1.0.0",
+  "description": "This is the main repository to follow the course for 'Advanced fullstack development' -3MCT.",
+  "scripts": {
+    "dev": "npm run dev -w pwa"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DefoortMerijn/VueBirds.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DefoortMerijn/VueBirds/issues"
+  },
+  "homepage": "https://github.com/DefoortMerijn/VueBirds#readme",
+  "workspaces": [
+    "pwa"
+  ]
+}
