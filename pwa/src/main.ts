@@ -3,10 +3,15 @@ import App from './App.vue'
 import 'uno.css'
 import '@unocss/reset/tailwind.css'
 import router from './bootstrap/router'
+import useAuthentication from './composable/useAuthentication'
 
 const app: VueApp = createApp(App)
 
+const { restoreUser } = useAuthentication()
 
-app.use(router)
+;(async function () {
+  await restoreUser()
+  app.use(router)
 
-app.mount('#app')
+  app.mount('#app')
+})()

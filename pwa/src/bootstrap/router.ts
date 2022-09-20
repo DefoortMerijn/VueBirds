@@ -12,7 +12,7 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../components/holders/AppHolder.vue'),
     children: [
       {
-        path: '', //Eigenlijk zal de / altijd hiernaar resolven
+        path: '/', //Eigenlijk zal de / altijd hiernaar resolven
         component: () => import('../screens/Home.vue'),
       },
 
@@ -57,7 +57,6 @@ const routes: RouteRecordRaw[] = [
         path: 'forgot-password',
         component: () => import('../components/auth/ForgotPassword.vue'),
       },
-
     ],
   },
 

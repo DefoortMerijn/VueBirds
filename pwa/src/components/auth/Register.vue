@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <form @submit.prevent="">
+    <form @submit.prevent="submitForm">
       <header>
         <h2 class="mb-6 text-3xl font-bold text-neutral-600">Register</h2>
       </header>
@@ -26,6 +26,7 @@
             type="text"
             id="name"
             name="name"
+            v-model="userInput.name"
             class="border-1 text w-full rounded-md border-neutral-200 px-3 py-1 text-neutral-800 outline-none ring-neutral-300 focus-visible:ring-2"
           />
         </label>
@@ -41,6 +42,8 @@
             id="email"
             name="email"
             autocomplete="email"
+            v-model="userInput.email"
+
             class="border-1 text w-full rounded-md border-neutral-200 px-3 py-1 text-neutral-800 outline-none ring-neutral-300 focus-visible:ring-2"
           />
         </label>
@@ -56,12 +59,13 @@
             id="password"
             name="password"
             autocomplete="current-password"
+            v-model="userInput.password"
             class="border-1 text w-full rounded-md border-neutral-200 px-3 py-1 text-neutral-800 outline-none ring-neutral-300 focus-visible:ring-2"
           />
         </label>
       </div>
       <button
-        class="mt-6 flex w-full items-center justify-center rounded-md bg-neutral-700 py-2 px-3 text-white outline-none ring-2 ring-neutral-300 hover:bg-neutral-900 focus-visible:ring"
+        class="mt-6 flex w-full items-center justify-center rounded-md bg-neutral-700 py-2 px-3 text-white outline-none  ring-neutral-300 hover:bg-neutral-900 focus-visible:ring-2"
         :disabled="loading"
       >
         <span v-if="!loading">Create Account</span>
@@ -82,8 +86,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref } from 'vue'
+import { defineComponent, reactive, ref, Ref } from 'vue'
 import { X, Loader2 } from 'lucide-vue-next'
+import useAuthentication  from '../../composable/useAuthentication'
 
 export default defineComponent({
   components: {
@@ -91,12 +96,41 @@ export default defineComponent({
     Loader2,
   },
   setup() {
-    const errorMessage: Ref<string> = ref('Something went wrong')
+    const {register} = useAuthentication()
+    const errorMessage: Ref<string> = ref('')
     const loading: Ref<boolean> = ref(false)
 
+    const userInput= reactive({
+        name:"",
+        email:"",
+        password:"",
+    })
+    const submitForm = () => {
+        loading.value = true
+        if(userInput.name === '' || userInput.email === '' || userInput.password === ''){
+            loading.value = false
+            errorMessage.value = "please fill in all fields"
+            return
+        }
+        
+        console.log(userInput)
+
+
+    register(userInput.name, userInput.email, userInput.password).then((u) => {
+        console.log('User created: ', u)
+        
+    }).catch((error) => {
+        errorMessage.value = error.message
+    }).finally(() => {
+        loading.value = false
+    })    
+}
+    
     return {
       errorMessage,
       loading,
+      userInput,
+      submitForm,
     }
   },
 })
