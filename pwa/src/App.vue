@@ -1,8 +1,17 @@
 <template>
-  <div class="text-red-500 text-6xl font-bold">
     <router-view></router-view>
-  </div>
+    <!-- bij Angular routes achter, Vue tussen-->
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
+import useFirebase from './composable/useFirebase'
+
+export default {
+        setup() {
+            const { app } = useFirebase()
+
+            console.log(app)
+            return{}
+        },
+    }
 </script>
