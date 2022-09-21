@@ -1,6 +1,8 @@
 <template>
     <div class="min-h-screen grid place-items-center bg-neutral-50">
         <div class="w-full max-w-lg px-6">
+            <Logo class="mx-auto mb-12 h-20"/>
+            
             <h1 class="text-4xl text-neutral-800 mb-6">Birds</h1>
             <div class="mb-20 rounded-md bg-white p-6 shadow">
                 <router-view></router-view>
@@ -9,3 +11,9 @@
     </div>
     
 </template>
+
+<script setup lang="ts">
+    import Logo from '../generic/Logo.vue'
+
+    
+</script>
