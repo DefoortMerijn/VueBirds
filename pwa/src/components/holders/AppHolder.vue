@@ -1,7 +1,7 @@
 <template>
-    <div>
-        <WebNav/>
-        <router-view></router-view>
+    <div class="grid grid-rows-[auto_1fr_auto] min-h-screen h-screen sm:h-auto">
+        <AppHeader/>
+        <router-view class="overflow-y-auto"></router-view>
         
         <AppFooter/>
     </div>
@@ -9,11 +9,11 @@
 
 <script lang="ts">
 import AppFooter from '../generic/AppFooter.vue';
-import WebNav from '../generic/WebNav.vue';
+import AppHeader from '../generic/AppHeader.vue';
     export default {
         components: {
     AppFooter,
-    WebNav
+    AppHeader
     
 },
     }
