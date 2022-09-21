@@ -48,6 +48,15 @@
               class="border-1 text w-full rounded-md border-neutral-200 px-3 py-1 text-neutral-800 outline-none ring-neutral-300 focus-visible:ring-2"
             />
           </label>
+          <p class="mt-1 text-sm">
+          <RouterLink
+            to="/auth/forgot-password"
+            class="rounded-sm outline-none ring-neutral-300 hover:underline focus-visible:ring"
+          >
+            Forgot password ?
+          </RouterLink>
+        </p>
+
         </div>
         <button
           class="mt-6 flex w-full items-center justify-center rounded-md bg-neutral-700 py-2 px-3 text-white outline-none  ring-neutral-300 hover:bg-neutral-900 focus-visible:ring-2"
@@ -74,6 +83,7 @@
   import { defineComponent, reactive, ref, Ref } from 'vue'
   import { X, Loader2 } from 'lucide-vue-next'
   import useAuthentication  from '../../composable/useAuthentication'
+import { useRouter } from 'vue-router'
   
   export default defineComponent({
     components: {
@@ -84,7 +94,9 @@
       const {login} = useAuthentication()
       const errorMessage: Ref<string> = ref('')
       const loading: Ref<boolean> = ref(false)
-  
+
+      const {replace} = useRouter()
+         
       const userInput= reactive({
           name:"",
           email:"",
@@ -92,7 +104,7 @@
       })
       const submitForm = () => {
           loading.value = true
-          if(userInput.name === '' || userInput.email === '' || userInput.password === ''){
+          if(userInput.email === '' || userInput.password === ''){
               loading.value = false
               errorMessage.value = "please fill in all fields"
               return
@@ -103,6 +115,7 @@
   
       login(userInput.email, userInput.password).then((u) => {
           console.log('Logged in with user: ', u)
+          return replace('/')
           
       }).catch((error) => {
           errorMessage.value = error.message

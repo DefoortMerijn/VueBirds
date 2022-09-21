@@ -1,10 +1,14 @@
+import { User } from 'lucide-vue-next'
 import {
   RouteRecordRaw,
   Router,
   createRouter,
   createWebHistory,
+  RouteLocation,
+  RouteLocationNormalized,
 } from 'vue-router'
-
+import useAuthentication from '../composable/useAuthentication'
+const { user } = useAuthentication()
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
@@ -27,14 +31,23 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/log',
         component: () => import('../screens/log/index.vue'),
+        meta: {
+          needsAuthentication: true,
+        },
       },
       {
         path: '/observations',
         component: () => import('../screens/observations/index.vue'),
+        meta: {
+          needsAuthentication: true,
+        },
       },
       {
         path: '/account',
         component: () => import('../screens/Account.vue'),
+        meta: {
+          needsAuthentication: true,
+        },
       },
     ],
   },
@@ -47,11 +60,17 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'login', //Eigenlijk zal de / altijd hiernaar resolven
         component: () => import('../components/auth/Login.vue'),
+        meta: {
+          cantAuthenticate: true,
+        },
       },
 
       {
         path: 'register',
         component: () => import('../components/auth/Register.vue'),
+        meta: {
+          cantAuthenticate: true,
+        },
       },
       {
         path: 'forgot-password',
@@ -71,5 +90,12 @@ const router: Router = createRouter({
   history: createWebHistory(),
   routes,
 })
+
+router.beforeEach(
+  (to: RouteLocationNormalized, from: RouteLocationNormalized) => {
+    if (to.meta.needsAuthentication && !user.value) return '/auth/login'
+    if (to.meta.cantAuthenticate && user.value) return '/'
+  },
+)
 
 export default router
