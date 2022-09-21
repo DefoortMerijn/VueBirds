@@ -1,3 +1,3 @@
 <template>
-    <h1>Home</h1>   
+    <h1 class="font-theme text-3xl">Home</h1>   
 </template>
