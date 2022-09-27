@@ -8,11 +8,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
+const graphql_1 = require("@nestjs/graphql");
+const typeorm_1 = require("@nestjs/typeorm");
+const graphqlConfig_1 = require("./bootstrap/graphqlConfig");
+const typeORMConfig_1 = require("./bootstrap/typeORMConfig");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [],
+        imports: [
+            typeorm_1.TypeOrmModule.forRoot(typeORMConfig_1.typeORMConfig),
+            graphql_1.GraphQLModule.forRoot(graphqlConfig_1.graphqlConfig),
+        ],
         controllers: [],
         providers: [],
     })
