@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "This is the main repository to follow the course for 'Advanced fullstack development' -3MCT.",
   "scripts": {
-    "dev": "npm run dev -w pwa"
+    "dev": "npm run start:dev -w api"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/DefoortMerijn/VueBirds#readme",
   "workspaces": [
-    "pwa"
+    "pwa","api"
   ]
 }
