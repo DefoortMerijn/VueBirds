@@ -9,8 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@apollo/client": "^3.7.0",
     "@unocss/reset": "^0.45.21",
+    "@vue/apollo-composable": "^4.0.0-alpha.19",
     "firebase": "^9.10.0",
+    "graphql": "^16.6.0",
+    "graphql-tag": "^2.12.6",
     "install": "^0.13.0",
     "lucide-vue-next": "^0.90.0",
     "npm": "^8.19.2",
