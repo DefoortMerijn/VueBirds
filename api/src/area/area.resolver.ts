@@ -23,10 +23,12 @@ export class AreaResolver {
     private readonly AreaService: AreaService,
     private readonly observationsService: ObservationsService,
   ) {}
-  @ResolveField()
-  observations(@Parent() a: Area): Promise<Observation> {
-    return this.observationsService.findOne(a.observationsId)
-  }
+
+  // @ResolveField()
+  // observations(@Parent() a: Area): Promise<Observation> {
+  //   return this.observationsService.findOne(a.observationsId)
+  // }
+
   @Mutation(() => Area)
   createArea(
     @Args('createAreanInput') createAreaInput: CreateAreaInput,
@@ -39,7 +41,7 @@ export class AreaResolver {
     return this.AreaService.findAll()
   }
 
-  @Query(() => Area, { name: 'Area' })
+  @Query(() => Area, { name: 'area' })
   findOne(@Args('id', { type: () => String }) id: string): Promise<Area> {
     return this.AreaService.findOne(id)
   }

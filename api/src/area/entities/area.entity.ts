@@ -20,9 +20,9 @@ export class Area {
   @Column() //typeORM
   name: string
 
-  @Field()
-  @Column()
-  observationsId: string
+  // @Field()
+  // @Column()
+  // observationsId: string
 
   @Field(() => [Observation], { nullable: 'itemsAndList' }) // GraphQL
   @Column({ nullable: true })

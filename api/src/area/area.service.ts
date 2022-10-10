@@ -14,11 +14,10 @@ export class AreaService {
   ) {}
 
   create(createAreaInput: CreateAreaInput): Promise<Area> {
-    const area = new Area()
-    area.name = createAreaInput.name
-    area.area = createAreaInput.area
-    area.observationsId = createAreaInput.observationsId
-    return this.areaRepository.save(area)
+    const a = new Area()
+    a.name = createAreaInput.name
+    a.area = createAreaInput.area
+    return this.areaRepository.save(a)
   }
 
   findAll(): Promise<Area[]> {
@@ -27,7 +26,7 @@ export class AreaService {
 
   findOne(id: string): Promise<Area> {
     //@ts-ignore
-    return this.areaRepository.findOneBy(new ObjectId(id))
+    return this.areaRepository.findOne(new ObjectId(id))
   }
 
   update(updateareaInput: UpdateAreaInput): Promise<Area> {
@@ -36,6 +35,7 @@ export class AreaService {
   }
 
   async remove(id: string): Promise<DeleteResult> {
-    return this.areaRepository.delete(id)
+    //@ts-ignore
+    return this.areaRepository.delete(new ObjectId(id))
   }
 }

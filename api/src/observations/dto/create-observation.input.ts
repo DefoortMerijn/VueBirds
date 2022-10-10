@@ -7,7 +7,7 @@ export class CreateObservationInput {
   @Field()
   name: string
 
-  @Field()
+  @Field({ nullable: true })
   userId: string
 
   @Field({ nullable: true })
