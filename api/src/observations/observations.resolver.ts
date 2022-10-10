@@ -6,28 +6,28 @@ import {
   ResolveField,
   Parent,
 } from '@nestjs/graphql'
+
 import { ObservationsService } from './observations.service'
 import { Observation } from './entities/observation.entity'
 import { CreateObservationInput } from './dto/create-observation.input'
 import { UpdateObservationInput } from './dto/update-observation.input'
 import { BirdsService } from 'src/birds/birds.service'
-import { AreaService } from 'src/area/area.service'
+import { LocationsService } from 'src/locations/locations.service'
 import { Bird } from '../birds/entities/bird.entity'
-import { Area } from 'src/area/entities/area.entity'
+import { Location } from 'src/locations/entities/location.entity'
 import {
   ClientMessage,
   MessageTypes,
 } from '../bootstrap/entities/ClientMessage'
-import { FirebaseGuard } from 'src/auth/guards/firebase.guards'
 import { UseGuards } from '@nestjs/common'
-import { CurrentUser } from 'src/auth/decorators/user.decorator'
+import { FirebaseGuard } from 'src/auth/guards/firebase.guard'
 
 @Resolver(() => Observation)
 export class ObservationsResolver {
   constructor(
     private readonly observationsService: ObservationsService,
     private readonly birdService: BirdsService,
-    private readonly areaService: AreaService,
+    private readonly locationService: LocationsService,
   ) {}
 
   @ResolveField()
@@ -36,8 +36,8 @@ export class ObservationsResolver {
   }
 
   @ResolveField()
-  area(@Parent() o: Observation): Promise<Area> {
-    return this.areaService.findOne(o.areaId)
+  location(@Parent() o: Observation): Promise<Location> {
+    return this.locationService.findOne(o.locationId)
   }
 
   @Mutation(() => Observation)
@@ -50,8 +50,7 @@ export class ObservationsResolver {
 
   @UseGuards(FirebaseGuard)
   @Query(() => [Observation], { name: 'observations' })
-  findAll(@CurrentUser() user) {
-    console.log(user)
+  findAll() {
     return this.observationsService.findAll()
   }
 

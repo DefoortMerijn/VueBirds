@@ -9,7 +9,7 @@ export enum MessageTypes {
 @ObjectType()
 export class ClientMessage {
   @Field()
-  type: MessageTypes // Todo: make strict enum
+  type: MessageTypes
 
   @Field()
   message: string

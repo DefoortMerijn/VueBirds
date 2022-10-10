@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { DeleteResult, Repository } from 'typeorm'
+import { ObjectId } from 'mongodb'
+import { Repository } from 'typeorm'
+
 import { CreateObservationInput } from './dto/create-observation.input'
 import { UpdateObservationInput } from './dto/update-observation.input'
 import { Observation } from './entities/observation.entity'
@@ -9,7 +11,7 @@ import { Observation } from './entities/observation.entity'
 export class ObservationsService {
   constructor(
     @InjectRepository(Observation)
-    private readonly observationRepo: Repository<Observation>,
+    private readonly observationRepository: Repository<Observation>,
   ) {}
 
   create(createObservationInput: CreateObservationInput): Promise<Observation> {
@@ -17,32 +19,36 @@ export class ObservationsService {
     o.name = createObservationInput.name
     o.description = createObservationInput.description
     o.weather = createObservationInput.weather
-    o.birdId = createObservationInput.birdId
     o.userId = createObservationInput.userId
-    // TODO: the bird has been spotted!
-    o.areaId = createObservationInput.areaId // TODO: something has been spotted on this area!
+    o.birdId = createObservationInput.birdId // TODO: the bird has been spotted!
+    o.locationId = createObservationInput.locationId // TODO: something has been spotted on this location!
     o.active = createObservationInput.active
-    return this.observationRepo.save(o)
+    return this.observationRepository.save(o)
   }
 
   findAll(): Promise<Observation[]> {
-    return this.observationRepo.find()
+    return this.observationRepository.find()
   }
 
   findOne(id: string): Promise<Observation> {
     //@ts-ignore
-    return this.observationRepo.findOneBy(new ObjectId(id))
+
+    return this.observationRepository.findOne(new ObjectId(id))
   }
 
-  update(updateObservationInput: UpdateObservationInput): Promise<Observation> {
-    this.observationRepo.update(
+  update(updateObservationInput: UpdateObservationInput) {
+    this.observationRepository.update(
       updateObservationInput.id,
       updateObservationInput,
     )
-    return this.observationRepo.findOneBy({ id: updateObservationInput.id })
+    return this.observationRepository.findOneBy({
+      id: updateObservationInput.id,
+    })
   }
 
-  remove(id: string): Promise<DeleteResult> {
-    return this.observationRepo.delete(id)
+  remove(id: string) {
+    //@ts-ignore
+
+    return this.observationRepository.delete(new ObjectId(id))
   }
 }

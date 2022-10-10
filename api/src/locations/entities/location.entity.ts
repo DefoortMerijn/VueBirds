@@ -1,6 +1,5 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql'
+import { ObjectType, Field, ID } from '@nestjs/graphql'
 import { ObjectId } from 'mongodb'
-import { Observation } from 'src/observations/entities/observation.entity'
 import {
   Column,
   CreateDateColumn,
@@ -9,28 +8,30 @@ import {
   UpdateDateColumn,
 } from 'typeorm'
 
+import { Observation } from 'src/observations/entities/observation.entity'
+
 @Entity()
-@ObjectType({ description: 'area' })
-export class Area {
-  @Field(() => ID) // GraphQL
-  @ObjectIdColumn() //typeORM // Map this field to the (generated) _id column in the database
+@ObjectType({ description: 'location' })
+export class Location {
+  @Field(() => ID)
+  @ObjectIdColumn()
   id: ObjectId
 
-  @Field() // GraphQL
-  @Column() //typeORM
+  @Field()
+  @Column()
   name: string
 
   // @Field()
   // @Column()
   // observationsId: string
 
-  @Field(() => [Observation], { nullable: 'itemsAndList' }) // GraphQL
+  @Field(() => [Observation], { nullable: 'itemsAndList' })
   @Column({ nullable: true })
   observations: Observation[]
 
-  @Field() // GraphQL
-  @Column() //typeORM
-  area: string
+  @Field()
+  @Column()
+  location: string
 
   @Field({ nullable: true })
   @CreateDateColumn({ type: 'timestamp', nullable: true })

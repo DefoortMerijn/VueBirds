@@ -1,10 +1,9 @@
+import { Repository } from 'typeorm'
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+
 import { Bird } from '../birds/entities/bird.entity'
-import { Repository } from 'typeorm'
-import * as jsonBirdsSeed from './data/scraped-birds.json' //tsconfig
-import { plainToInstance } from 'class-transformer'
-//https://www.npmjs.com/package/class-transformer
+import * as jsonBirdsSeed from './data/scraped-birds.json' //tsconfig "resolveJsonModule": true,
 
 @Injectable()
 export class DatabaseSeedService {
@@ -14,14 +13,13 @@ export class DatabaseSeedService {
   ) {}
 
   async addAllBirds(): Promise<Bird[]> {
-    let theBirds: Bird[] = []
-    //@ts-ignore
-    for (let jsonb of jsonBirdsSeed) {
-      //let b = plainToInstance(Bird, jsonb);
+    const theBirds: Bird[] = []
+
+    for (const jsonb of jsonBirdsSeed) {
       const b = new Bird()
       b.name = jsonb.name
-      b.fullname = jsonb.fullName
-      b.category = ''
+      b.fullname = jsonb.fullname
+      b.category = jsonb.category
       b.observations = 0
       b.url = jsonb.url
       b.description = jsonb.description

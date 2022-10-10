@@ -1,4 +1,4 @@
 **/node_modules/
-pwa/.env
+**/.env
 **/dist/
 api/birds-ca1c8-firebase-adminsdk.json

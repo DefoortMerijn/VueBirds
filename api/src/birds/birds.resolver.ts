@@ -37,7 +37,7 @@ export class BirdsResolver {
     return this.birdsService.update(updateBirdInput)
   }
 
-  // TODO: birdsByarea
+  // TODO: birdsByLocation
 
   // TODO: birdsByCategory
 

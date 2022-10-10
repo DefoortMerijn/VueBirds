@@ -1,36 +1,56 @@
 import { Injectable } from '@nestjs/common'
-import { InjectRepository } from '@nestjs/typeorm'
-import { DeleteResult, ObjectID, Repository } from 'typeorm'
+import { DeleteResult, Repository } from 'typeorm'
+import { ObjectId } from 'mongodb'
+
 import { CreateBirdInput } from './dto/create-bird.input'
 import { UpdateBirdInput } from './dto/update-bird.input'
 import { Bird } from './entities/bird.entity'
-import { ObjectId } from 'mongodb'
+import { InjectRepository } from '@nestjs/typeorm'
 
 @Injectable()
 export class BirdsService {
   constructor(
-    @InjectRepository(Bird) private readonly birdRepo: Repository<Bird>,
+    @InjectRepository(Bird)
+    private readonly birdRepository: Repository<Bird>,
   ) {}
+
   create(createBirdInput: CreateBirdInput): Promise<Bird> {
-    return this.birdRepo.save(createBirdInput)
+    const b = new Bird()
+    b.name = createBirdInput.name
+    b.fullname = createBirdInput.fullname
+    b.category = createBirdInput.category
+    b.url = createBirdInput.url
+    b.observations = createBirdInput.observations
+    b.description = createBirdInput.description
+
+    return this.birdRepository.save(b)
   }
 
   findAll(): Promise<Bird[]> {
-    return this.birdRepo.find()
+    return this.birdRepository.find()
   }
 
   findOne(id: string): Promise<Bird> {
-    // @ts-ignore
-    return this.birdRepo.findOne(new ObjectId(id))
+    //@ts-ignore
+
+    return this.birdRepository.findOne(new ObjectId(id))
   }
 
-  async update(updateBirdInput: UpdateBirdInput): Promise<Bird> {
-    this.birdRepo.update(updateBirdInput.id, updateBirdInput)
-    return this.birdRepo.findOneBy({ id: updateBirdInput.id })
+  update(updateBirdInput: UpdateBirdInput) {
+    const update = new Bird()
+    update.id = new ObjectId(updateBirdInput.id)
+    update.name = updateBirdInput.name
+    update.fullname = updateBirdInput.fullname
+    update.category = updateBirdInput.category
+    update.url = updateBirdInput.url
+    update.observations = updateBirdInput.observations
+    update.description = updateBirdInput.description
+    return this.birdRepository.save(update) // Save gives us an advantage!
   }
 
   remove(id: string): Promise<DeleteResult> {
-    // @ts-ignore
-    return this.birdRepo.delete(new ObjectId(id))
+    //@ts-ignore
+
+    return this.birdRepository.delete(new ObjectId(id))
   }
 }

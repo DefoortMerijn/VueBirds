@@ -5,15 +5,15 @@ import { ObservationsService } from './observations.service'
 import { ObservationsResolver } from './observations.resolver'
 import { Bird } from 'src/birds/entities/bird.entity'
 import { BirdsService } from 'src/birds/birds.service'
-import { Area } from 'src/area/entities/area.entity'
+import { Location } from 'src/locations/entities/location.entity'
 import { Observation } from './entities/observation.entity'
-import { AreaService } from 'src/area/area.service'
+import { LocationsService } from 'src/locations/locations.service'
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Bird, Area, Observation])],
+  imports: [TypeOrmModule.forFeature([Bird, Location, Observation])],
   providers: [
     BirdsService,
-    AreaService,
+    LocationsService,
     ObservationsResolver,
     ObservationsService,
   ],

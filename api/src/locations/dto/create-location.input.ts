@@ -1,10 +1,10 @@
 import { InputType, Field } from '@nestjs/graphql'
 
 @InputType()
-export class CreateAreaInput {
+export class CreateLocationInput {
   @Field()
   name: string
 
   @Field()
-  area: string
+  location: string
 }
