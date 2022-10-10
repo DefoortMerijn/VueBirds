@@ -1,3 +1,11 @@
 <template>
-    <h1 class="font-theme text-3xl">Home</h1>   
+    <route-holder title="Home"></route-holder>
 </template>
+
+<script lang="ts">
+    import RouteHolder from '../components/holders/RouteHolder.vue'
+
+    export default {
+        components: {RouteHolder},
+    }
+</script>

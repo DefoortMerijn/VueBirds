@@ -1,8 +1,6 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql'
-
 import { ObjectId } from 'mongodb'
 import { Observation } from 'src/observations/entities/observation.entity'
-
 import {
   Column,
   CreateDateColumn,
@@ -22,13 +20,17 @@ export class Area {
   @Column() //typeORM
   name: string
 
-  @Field(() => [Observation])
+  @Field()
+  @Column()
+  observationsId: string
+
+  @Field(() => [Observation], { nullable: 'itemsAndList' }) // GraphQL
   @Column({ nullable: true })
   observations: Observation[]
 
   @Field() // GraphQL
   @Column() //typeORM
-  location: string
+  area: string
 
   @Field({ nullable: true })
   @CreateDateColumn({ type: 'timestamp', nullable: true })

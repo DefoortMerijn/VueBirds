@@ -1,7 +1,5 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql'
-
 import { ObjectId } from 'mongodb'
-
 import {
   Column,
   CreateDateColumn,
@@ -18,7 +16,7 @@ export class Bird {
   id: ObjectId
 
   @Field() // GraphQL
-  @Column() //typeORM
+  @Column() // typeORM
   name: string
 
   @Field()
@@ -40,6 +38,10 @@ export class Bird {
   @Field({ nullable: true })
   @Column()
   description?: string
+
+  @Field({ nullable: true })
+  @Column()
+  active?: boolean
 
   @Field({ nullable: true })
   @CreateDateColumn({ type: 'timestamp', nullable: true })

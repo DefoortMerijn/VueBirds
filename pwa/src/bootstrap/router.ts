@@ -25,8 +25,12 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../screens/birds/index.vue'),
       },
       {
-        path: '/locations',
-        component: () => import('../screens/locations/index.vue'),
+        path: '/birds/:id',
+        component: () => import('../screens/birds/_id.vue'),
+      },
+      {
+        path: '/areas',
+        component: () => import('../screens/areas/index.vue'),
       },
       {
         path: '/log',
@@ -38,6 +42,13 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/observations',
         component: () => import('../screens/observations/index.vue'),
+        meta: {
+          needsAuthentication: true,
+        },
+      },
+      {
+        path: '/observations/add',
+        component: () => import('../screens/observations/Add.vue'),
         meta: {
           needsAuthentication: true,
         },

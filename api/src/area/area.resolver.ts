@@ -1,13 +1,32 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql'
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql'
 import { AreaService } from './area.service'
 import { Area } from './entities/area.entity'
 import { CreateAreaInput } from './dto/create-area.input'
 import { UpdateAreaInput } from './dto/update-area.input'
+import { ObservationsService } from '../observations/observations.service'
+import { Observation } from '../observations/entities/observation.entity'
+import {
+  ClientMessage,
+  MessageTypes,
+} from '../bootstrap/entities/ClientMessage'
 
 @Resolver(() => Area)
 export class AreaResolver {
-  constructor(private readonly AreaService: AreaService) {}
-
+  constructor(
+    private readonly AreaService: AreaService,
+    private readonly observationsService: ObservationsService,
+  ) {}
+  @ResolveField()
+  observations(@Parent() a: Area): Promise<Observation> {
+    return this.observationsService.findOne(a.observationsId)
+  }
   @Mutation(() => Area)
   createArea(
     @Args('createAreanInput') createAreaInput: CreateAreaInput,
@@ -33,7 +52,21 @@ export class AreaResolver {
   }
 
   @Mutation(() => Area)
-  removeArea(@Args('id', { type: () => String }) id: string) {
-    return this.AreaService.remove(id)
+  async removeArea(
+    @Args('id', { type: () => String }) id: string,
+  ): Promise<ClientMessage> {
+    const deleted = await this.AreaService.remove(id)
+    if (deleted.affected <= 1)
+      return {
+        type: MessageTypes.success,
+        message: 'Area deleted',
+        statusCode: 200,
+      }
+
+    return {
+      type: MessageTypes.error,
+      message: 'Delete action went very wrong.',
+      statusCode: 400,
+    }
   }
 }

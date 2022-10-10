@@ -8,27 +8,41 @@ import { Observation } from './entities/observation.entity'
 @Injectable()
 export class ObservationsService {
   constructor(
-    @InjectRepository(Observation) private readonly areaRepo: Repository<Observation>,
+    @InjectRepository(Observation)
+    private readonly observationRepo: Repository<Observation>,
   ) {}
 
   create(createObservationInput: CreateObservationInput): Promise<Observation> {
-    return this.areaRepo.save(createObservationInput)
+    const o = new Observation()
+    o.name = createObservationInput.name
+    o.description = createObservationInput.description
+    o.weather = createObservationInput.weather
+    o.birdId = createObservationInput.birdId
+    o.userId = createObservationInput.userId
+    // TODO: the bird has been spotted!
+    o.areaId = createObservationInput.areaId // TODO: something has been spotted on this area!
+    o.active = createObservationInput.active
+    return this.observationRepo.save(o)
   }
 
   findAll(): Promise<Observation[]> {
-    return this.areaRepo.find()
+    return this.observationRepo.find()
   }
 
   findOne(id: string): Promise<Observation> {
-    return this.areaRepo.findOneBy({ id: id })
+    //@ts-ignore
+    return this.observationRepo.findOneBy(new ObjectId(id))
   }
 
   update(updateObservationInput: UpdateObservationInput): Promise<Observation> {
-    this.areaRepo.update(updateObservationInput.id, updateObservationInput)
-    return this.areaRepo.findOneBy({ id: updateObservationInput.id })
+    this.observationRepo.update(
+      updateObservationInput.id,
+      updateObservationInput,
+    )
+    return this.observationRepo.findOneBy({ id: updateObservationInput.id })
   }
 
   remove(id: string): Promise<DeleteResult> {
-    return this.areaRepo.delete(id)
+    return this.observationRepo.delete(id)
   }
 }

@@ -1,7 +1,7 @@
-import { ObjectType, Field, ID } from '@nestjs/graphql'
+import { Field, ID, ObjectType } from '@nestjs/graphql'
 import { ObjectId } from 'mongodb'
-import { Area } from 'src/area/entities/area.entity'
 import { Bird } from 'src/birds/entities/bird.entity'
+import { Area } from 'src/area/entities/area.entity'
 import {
   Column,
   CreateDateColumn,
@@ -21,9 +21,9 @@ export class Observation {
   @Column()
   name: string
 
-  @Field({ nullable: true })
-  @Column({ nullable: true })
-  userId?: string
+  @Field()
+  @Column()
+  userId: string
 
   @Field({ nullable: true })
   @Column({ nullable: true })
@@ -36,10 +36,10 @@ export class Observation {
   birdId: string
 
   @Field(() => Area)
-  location: Area
+  area: Area
 
   @Column()
-  locationId: string
+  areaId: string
 
   @Field({ nullable: true })
   @Column()

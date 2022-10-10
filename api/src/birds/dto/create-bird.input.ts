@@ -1,22 +1,22 @@
-import { InputType, Int, Field } from '@nestjs/graphql'
+import { InputType, Field } from '@nestjs/graphql'
 
 @InputType()
 export class CreateBirdInput {
-  @Field() // GraphQL
+  @Field()
   name: string
 
-  @Field() // GraphQL
+  @Field()
   fullname: string
 
-  @Field() // GraphQL
+  @Field()
   category: string
 
-  @Field() // GraphQL
+  @Field()
   url: string
 
-  @Field({ defaultValue: 0 }) // GraphQL
+  @Field({ defaultValue: 0 })
   observations: number
 
-  @Field({ nullable: true }) // GraphQL
+  @Field({ nullable: true })
   description?: string
 }

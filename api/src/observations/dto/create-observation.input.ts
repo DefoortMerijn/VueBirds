@@ -7,23 +7,17 @@ export class CreateObservationInput {
   @Field()
   name: string
 
-  @Field({ nullable: true })
-  userId?: string
+  @Field()
+  userId: string
 
   @Field({ nullable: true })
   weather?: string
 
-  // @Field(() => Bird)
-  // bird: Bird
-
   @Field()
   birdId: string
 
-  // @Field(() => Location)
-  // location: Location
-
   @Field()
-  locationId: string
+  areaId: string
 
   @Field({ nullable: true })
   description?: string

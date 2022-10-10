@@ -14,7 +14,11 @@ export class AreaService {
   ) {}
 
   create(createAreaInput: CreateAreaInput): Promise<Area> {
-    return this.areaRepository.save(createAreaInput)
+    const area = new Area()
+    area.name = createAreaInput.name
+    area.area = createAreaInput.area
+    area.observationsId = createAreaInput.observationsId
+    return this.areaRepository.save(area)
   }
 
   findAll(): Promise<Area[]> {
@@ -22,7 +26,8 @@ export class AreaService {
   }
 
   findOne(id: string): Promise<Area> {
-    return this.areaRepository.findOneBy({ id: id })
+    //@ts-ignore
+    return this.areaRepository.findOneBy(new ObjectId(id))
   }
 
   update(updateareaInput: UpdateAreaInput): Promise<Area> {

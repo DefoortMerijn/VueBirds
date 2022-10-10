@@ -6,9 +6,9 @@ export class CreateAreaInput {
   @Field()
   name: string
 
-  @Field()
-  observationsId: string
+  @Field({ nullable: true })
+  observationsId?: string
 
   @Field()
-  location: string
+  area: string
 }

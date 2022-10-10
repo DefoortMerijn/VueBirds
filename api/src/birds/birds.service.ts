@@ -20,7 +20,8 @@ export class BirdsService {
   }
 
   findOne(id: string): Promise<Bird> {
-    return this.birdRepo.findOneBy({ id: id })
+    // @ts-ignore
+    return this.birdRepo.findOne(new ObjectId(id))
   }
 
   async update(updateBirdInput: UpdateBirdInput): Promise<Bird> {

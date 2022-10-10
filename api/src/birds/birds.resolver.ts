@@ -1,8 +1,9 @@
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
+
+import { Bird } from './entities/bird.entity'
 import { BirdsService } from './birds.service'
 import { CreateBirdInput } from './dto/create-bird.input'
 import { UpdateBirdInput } from './dto/update-bird.input'
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql'
-import { Bird } from './entities/bird.entity'
 import {
   ClientMessage,
   MessageTypes,
@@ -11,27 +12,35 @@ import {
 @Resolver(() => Bird)
 export class BirdsResolver {
   constructor(private readonly birdsService: BirdsService) {}
+
   @Mutation(() => Bird, { description: 'Create a bird using the DTO.' })
   createBird(
     @Args('createBirdInput') createBirdInput: CreateBirdInput,
   ): Promise<Bird> {
     return this.birdsService.create(createBirdInput)
   }
+
   @Query(() => [Bird], { name: 'birds' })
   findAll(): Promise<Bird[]> {
     return this.birdsService.findAll()
   }
+
   @Query(() => Bird, { name: 'bird' })
   findOne(@Args('id', { type: () => String }) id: string): Promise<Bird> {
     return this.birdsService.findOne(id)
   }
+
   @Mutation(() => Bird)
   updateBird(
     @Args('updateBirdInput') updateBirdInput: UpdateBirdInput,
   ): Promise<Bird> {
     return this.birdsService.update(updateBirdInput)
   }
-  // TODO: make better.
+
+  // TODO: birdsByarea
+
+  // TODO: birdsByCategory
+
   @Mutation(() => ClientMessage)
   async removeBird(
     @Args('id', { type: () => String }) id: string,
@@ -43,6 +52,7 @@ export class BirdsResolver {
         message: 'Bird deleted',
         statusCode: 200,
       }
+
     return {
       type: MessageTypes.error,
       message: 'Delete action went very wrong.',

@@ -3,7 +3,6 @@ import {
   Query,
   Mutation,
   Args,
-  Int,
   ResolveField,
   Parent,
 } from '@nestjs/graphql'
@@ -12,30 +11,36 @@ import { Observation } from './entities/observation.entity'
 import { CreateObservationInput } from './dto/create-observation.input'
 import { UpdateObservationInput } from './dto/update-observation.input'
 import { BirdsService } from 'src/birds/birds.service'
-import { Area } from 'src/area/entities/area.entity'
 import { AreaService } from 'src/area/area.service'
+import { Bird } from '../birds/entities/bird.entity'
+import { Area } from 'src/area/entities/area.entity'
+import {
+  ClientMessage,
+  MessageTypes,
+} from '../bootstrap/entities/ClientMessage'
 
 @Resolver(() => Observation)
 export class ObservationsResolver {
   constructor(
     private readonly observationsService: ObservationsService,
-    private readonly birdsService: BirdsService,
+    private readonly birdService: BirdsService,
     private readonly areaService: AreaService,
   ) {}
 
   @ResolveField()
-  bird(@Parent() o: Observation) {
-    return this.birdsService.findOne(o.birdId)
+  bird(@Parent() o: Observation): Promise<Bird> {
+    return this.birdService.findOne(o.birdId)
   }
 
   @ResolveField()
-  birds(@Parent() o: Observation) {
-    return this.areaService.findOne(o.locationId)
+  area(@Parent() o: Observation): Promise<Area> {
+    return this.areaService.findOne(o.areaId)
   }
 
   @Mutation(() => Observation)
   createObservation(
-    @Args('createObservationInput') createObservationInput: CreateObservationInput,
+    @Args('createObservationInput')
+    createObservationInput: CreateObservationInput,
   ) {
     return this.observationsService.create(createObservationInput)
   }
@@ -52,13 +57,28 @@ export class ObservationsResolver {
 
   @Mutation(() => Observation)
   updateObservation(
-    @Args('updateObservationInput') updateObservationInput: UpdateObservationInput,
+    @Args('updateObservationInput')
+    updateObservationInput: UpdateObservationInput,
   ) {
     return this.observationsService.update(updateObservationInput)
   }
 
   @Mutation(() => Observation)
-  removeObservation(@Args('id', { type: () => String }) id: string) {
-    return this.observationsService.remove(id)
+  async removeObservation(
+    @Args('id', { type: () => String }) id: string,
+  ): Promise<ClientMessage> {
+    const deleted = await this.observationsService.remove(id)
+    if (deleted.affected <= 1)
+      return {
+        type: MessageTypes.success,
+        message: 'Bird deleted',
+        statusCode: 200,
+      }
+
+    return {
+      type: MessageTypes.error,
+      message: 'Delete action went very wrong.',
+      statusCode: 400,
+    }
   }
 }

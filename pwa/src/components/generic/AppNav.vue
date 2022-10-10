@@ -11,17 +11,18 @@
  Birds </router-link>
     </li>
     <li>
-      
-
-      <router-link active-class="text-cyan-500" to="/log" class="px-3 py-6 focus-visible:ring-2 outline-none inline-block rounded-md">
-        <Clipboard class="h-5 mx-auto mb-2 sm:hidden" /> Log </router-link>
-    </li>
-    <li>
       <router-link active-class="text-cyan-500" to="/observations" class="px-3 py-6 focus-visible:ring-2 outline-none inline-block rounded-md">
         <Scroll class="h-5 mx-auto mb-2 sm:hidden" />
 Observations
       </router-link>
     </li>
+    <li class="sm:hidden">
+      
+
+      <router-link active-class="text-cyan-500" to="/account" class="px-3 py-6 focus-visible:ring-2 outline-none inline-block rounded-md">
+        <User class="h-5 mx-auto mb-2 sm:hidden" /> User </router-link>
+    </li>
+
     <li class="pl-6 sm:block hidden">
       <router-link active-class="text-cyan-500" to="/account" class="px-3 py-6 focus-visible:ring-2 outline-none inline-block rounded-md">
         {{ user ? user?.displayName : 'Login' }}
@@ -32,7 +33,7 @@ Observations
 
 <script lang="ts">
 import useAuthentication from '../../composable/useAuthentication'
-import { Home, Feather, Scroll, Clipboard } from 'lucide-vue-next'
+import { Home, Feather, Scroll, Clipboard, User } from 'lucide-vue-next'
 
 export default {
   setup() {
@@ -41,6 +42,6 @@ export default {
       user,
     }
   },
-  components: { Home,Feather, Scroll, Clipboard },
+  components: { Home,Feather, Scroll, Clipboard, User },
 }
 </script>
