@@ -1,4 +1,4 @@
-import Area from './interface.area'
+import Location from './interface.location'
 import Bird from './interface.bird'
 
 export default interface Observation {
@@ -7,7 +7,7 @@ export default interface Observation {
   userId: string
   weather?: string
   bird: Bird
-  lcoation: Area
+  location: Location
   description?: string
   active?: boolean
   createdAt?: Date

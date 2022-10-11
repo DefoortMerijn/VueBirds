@@ -14,11 +14,7 @@ export class LocationsService {
   ) {}
 
   create(createLocationInput: CreateLocationInput): Promise<Location> {
-    const l = new Location()
-    l.name = createLocationInput.name
-    // l.observationsId = createLocationInput.observationsId
-    l.location = createLocationInput.location
-    return this.locationRepository.save(l)
+    return this.locationRepository.save(createLocationInput)
   }
 
   findAll(): Promise<Location[]> {
@@ -36,6 +32,7 @@ export class LocationsService {
     update.name = updateLocationInput.name
     // update.observationsId = updateLocationInput.observationsId
     update.location = updateLocationInput.location
+    update.area = updateLocationInput.area
     return this.locationRepository.save(update)
   }
 

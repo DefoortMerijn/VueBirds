@@ -29,8 +29,12 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../screens/birds/_id.vue'),
       },
       {
-        path: '/areas',
-        component: () => import('../screens/areas/index.vue'),
+        path: '/locations',
+        component: () => import('../screens/locations/index.vue'),
+      },
+      {
+        path: 'locations/add',
+        component: () => import('../screens/locations/Add.vue'),
       },
       {
         path: '/log',

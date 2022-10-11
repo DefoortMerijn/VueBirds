@@ -37,7 +37,7 @@
           class="mb-1 block text-neutral-500 focus-within:text-neutral-900"
           for="birdId"
         >
-          <span class="mb-2 block">Bird species</span>
+          <span class="mb-2 block">Bird specie</span>
 
           <select
             :disabled="loading"
@@ -57,30 +57,37 @@
         </label>
       </div>
 
-      <!-- Area -->
+      <!-- LOCATION -->
       <div class="mt-3">
         <label
           class="mb-1 block text-neutral-500 focus-within:text-neutral-900"
-          for="areaId"
+          for="locationId"
         >
-          <span class="mb-2 block">Area</span>
+          <span class="mb-2 block">Location</span>
 
           <select
             :disabled="loading"
             v-if="result"
-            v-model="observationInput.areaId"
-            name="areaId"
-            id="areaId"
+            v-model="observationInput.location"
+            name="locationId"
+            id="locationId"
             class="w-full rounded-md border border-neutral-200 px-3 py-1 text-neutral-800 outline-none ring-neutral-300 focus-visible:ring"
+            @change="setPolygon"
           >
-            <option value="Pick a Area" selected disabled>
-              Pick a Area
+            <option value="Pick a location" selected disabled>
+              Pick a location
             </option>
-            <option v-for="a of result.areas" :key="a.id" :value="a.id">
-              {{ a.name }}
+            <option v-for="l of result.locations" :key="l.id" :value="l">
+              {{ l.name }}
             </option>
           </select>
         </label>
+
+        <map-view
+          :mapCoordinates="{ lng: 3.3232699, lat: 50.8425729 }"
+          :polygons="polygons"
+          class="min-h-[10vh]"
+        />
       </div>
 
       <!-- DESCRIPTION -->
@@ -133,18 +140,22 @@
 </template>
 
 <script lang="ts">
-import { reactive, ref, Ref } from 'vue'
+import { reactive, ref, Ref, watch } from 'vue'
 import gql from 'graphql-tag'
 import { useRouter } from 'vue-router'
 import { useQuery, useMutation } from '@vue/apollo-composable'
 import { Loader2, X } from 'lucide-vue-next'
 
 import RouteHolder from '../../components/holders/RouteHolder.vue'
+import MapView from '../../components/generic/MapView.vue'
 import useAuthentication from '../../composable/useAuthentication'
+import { Polygon } from 'geojson'
+import Location from '../../interfaces/interface.location'
 
 export default {
   components: {
     RouteHolder,
+    MapView,
     Loader2,
     X,
   },
@@ -154,6 +165,7 @@ export default {
     const { replace } = useRouter()
 
     const errorMessage: Ref<string> = ref('')
+    const polygons: Ref<Polygon[]> = ref([])
 
     // TODO: make form
     // Link input values (v-model)
@@ -167,9 +179,13 @@ export default {
           name
         }
 
-        areas {
+        locations {
           id
           name
+          area {
+            type
+            coordinates
+          }
         }
       }
     `
@@ -184,16 +200,16 @@ export default {
         }
       }
     `
-     
+
     const observationInput = reactive({
       name: 'Beautiful bird',
       description:
         'A beautiful common buzzard (buteo buteo) flying over Kortrijk.',
       weather: 'Overcast, clouded',
       birdId: 'Buizerd',
-      areaId: 'Magdalenapark',
-       //@ts-ignore
-      userId: user.value.uid,
+      location: {} as Partial<Location>,
+      geolocation: { lng: 3.3232699, lat: 50.8425729 },
+      userId: user.value!.uid,
       active: true,
     })
 
@@ -204,6 +220,23 @@ export default {
         createObservationInput: observationInput,
       },
     }))
+
+    const setPolygon = () => {
+      if (!observationInput.location) return
+      console.log(observationInput.location.area)
+
+      // @ts-ignore
+      polygons.value = [observationInput.location.area]
+    }
+
+    // watch(result, (newResult) => {
+    //   if (newResult) {
+    //     polygons.value = newResult.locations.map((l: Location) => l.area)
+
+    //     // TODO:
+    //     // calculate center of all polygons combined
+    //   }
+    // })
 
     const submitForm = async () => {
       const observation = await addObservation().catch((err) => {
@@ -221,6 +254,9 @@ export default {
       loading,
       error,
       errorMessage,
+      polygons,
+
+      setPolygon,
       submitForm,
     }
   },

@@ -11,7 +11,7 @@ export default () => {
   const cache = new InMemoryCache()
 
   const httpLink = createHttpLink({
-    uri: 'http://[::1]:3066/graphql',
+    uri: 'http://[::1]:3003/graphql',
     credentials: 'same-origin',
   })
 

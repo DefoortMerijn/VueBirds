@@ -1,27 +1,30 @@
 <template>
-    <div class="px-6 py-3">
-        <main class="mx-auto max-w-6xl">
-            <h1 class="font-theme text-5xl font-bold">
-                {{title}}
-            </h1>
-            <slot></slot>
-        </main>
+    <div class="px-6 py-6">
+      <main class="mx-auto max-w-6xl">
+        <div class="flex items-center justify-between">
+          <h1 v-if="title" class="font-theme mb-6 text-5xl font-light">
+            {{ title }}
+          </h1>
+  
+          <slot name="header-actions"></slot>
+        </div>
+  
+        <slot></slot>
+      </main>
     </div>
-    
-</template>
-
-<script lang="ts">
-export default {
-        props: {
-            title: {
-                type: String as () => String,
-                required: true,
-            },
-        },
-        setup() {
-            return {
-               
-            }
-        },
-    }
-</script>
+  </template>
+  
+  <script lang="ts">
+  export default {
+    props: {
+      title: {
+        type: String as () => string,
+        required: false,
+      },
+    },
+  
+    setup() {
+      return {}
+    },
+  }
+  </script>

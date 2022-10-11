@@ -15,15 +15,7 @@ export class ObservationsService {
   ) {}
 
   create(createObservationInput: CreateObservationInput): Promise<Observation> {
-    const o = new Observation()
-    o.name = createObservationInput.name
-    o.description = createObservationInput.description
-    o.weather = createObservationInput.weather
-    o.userId = createObservationInput.userId
-    o.birdId = createObservationInput.birdId // TODO: the bird has been spotted!
-    o.locationId = createObservationInput.locationId // TODO: something has been spotted on this location!
-    o.active = createObservationInput.active
-    return this.observationRepository.save(o)
+    return this.observationRepository.save(createObservationInput)
   }
 
   findAll(): Promise<Observation[]> {

@@ -1,4 +1,6 @@
 import { InputType, Field } from '@nestjs/graphql'
+import { Polygon } from 'geojson'
+import { Area } from '../entities/area.entity'
 
 @InputType()
 export class CreateLocationInput {
@@ -7,4 +9,7 @@ export class CreateLocationInput {
 
   @Field()
   location: string
+
+  @Field(() => Area)
+  area: Polygon
 }
