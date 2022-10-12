@@ -28,6 +28,10 @@ export class UsersService {
     return this.userRepository.findOne(new ObjectId(id))
   }
 
+  findOneByUid(uid: string): Promise<User> {
+    return this.userRepository.findOneBy({ uid })
+  }
+
   update(updateUserInput: UpdateUserInput) {
     this.userRepository.update(updateUserInput.id, updateUserInput)
     return this.userRepository.findOneBy({

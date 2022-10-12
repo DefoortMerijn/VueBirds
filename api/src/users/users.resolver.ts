@@ -17,10 +17,7 @@ import { MessageTypes } from 'src/bootstrap/entities/ClientMessage'
 
 @Resolver(() => User)
 export class UsersResolver {
-  constructor(
-    private readonly usersService: UsersService,
-  ) {}
-
+  constructor(private readonly usersService: UsersService) {}
 
   @Mutation(() => User)
   createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
@@ -35,6 +32,11 @@ export class UsersResolver {
   @Query(() => User, { name: 'user' })
   findOne(@Args('id', { type: () => String }) id: string) {
     return this.usersService.findOne(id)
+  }
+
+  @Query(() => User, { name: 'user' })
+  findByUid(@Args('uid', { type: () => String }) uid: string) {
+    return this.usersService.findOneByUid(uid)
   }
 
   @Mutation(() => User)
