@@ -8,6 +8,10 @@ import {
 } from 'firebase/auth'
 import { ref, Ref } from 'vue'
 import useFirebase from './useFirebase'
+import { User as CustomUser } from '../interfaces/interface.user'
+import { GET_USER_BY_UID } from '../graphql/query.user'
+import { useLazyQuery } from '@vue/apollo-composable'
+import useGraphQL from './useGraphQL'
 
 const user: Ref<User | null> = ref(null)
 

@@ -1,4 +1,5 @@
 import { InputType, Int, Field } from '@nestjs/graphql'
+import { CreateObservationInput } from 'src/observations/dto/create-observation.input'
 import { Observation } from 'src/observations/entities/observation.entity'
 
 @InputType()
@@ -6,9 +7,12 @@ export class CreateUserInput {
   @Field()
   uid: string
 
-  // @Field(() => [Observation])
-  // observations: Observation[]
+  @Field(() => [CreateObservationInput], {
+    nullable: 'itemsAndList',
+    defaultValue: [],
+  })
+  observations?: Observation[]
 
-  // @Field()
-  // observationCount: number
+  @Field(() => Int, { defaultValue: 0 })
+  observationCount?: number
 }
