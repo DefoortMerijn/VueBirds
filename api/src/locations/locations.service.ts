@@ -14,7 +14,12 @@ export class LocationsService {
   ) {}
 
   create(createLocationInput: CreateLocationInput): Promise<Location> {
-    return this.locationRepository.save(createLocationInput)
+    const l = new Location()
+    l.name = createLocationInput.name
+    // l.observationsId = createLocationInput.observationsId
+    // l.location = createLocationInput.location
+    l.area = createLocationInput.area
+    return this.locationRepository.save(l)
   }
 
   findAll(): Promise<Location[]> {
@@ -31,14 +36,13 @@ export class LocationsService {
     update.id = new ObjectId(updateLocationInput.id)
     update.name = updateLocationInput.name
     // update.observationsId = updateLocationInput.observationsId
-    update.location = updateLocationInput.location
+    // update.location = updateLocationInput.location
     update.area = updateLocationInput.area
     return this.locationRepository.save(update)
   }
 
   remove(id: string): Promise<DeleteResult> {
     //@ts-ignore
-
     return this.locationRepository.delete(new ObjectId(id))
   }
 }

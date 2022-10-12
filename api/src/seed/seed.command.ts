@@ -27,21 +27,18 @@ export class DatabaseSeedCommand {
     console.log('🌱 Deleting done 🏁')
   }
 
-  @Command({
-    command: 'seed:database:locations',
-    describe: 'seed the database with a couple of locations',
-  })
-  async seedLocations() {
-    const l = await this.seedService.addAllLocations()
-    console.log(`Added ${l.length} locations: `, l)
-  }
+  // @Command({
+  //   command: 'seed:locations',
+  //   describe: 'Seed the database with a couple of locations.',
+  // })
+  // async seedLocations() {
+  //   console.log('Setting locations.')
 
-  @Command({
-    command: 'seed:database:observations',
-    describe: 'seed the database with an observation',
-  })
-  async seedObservations() {
-    const o = await this.seedService.addAllObservations()
-    console.log(`Added ${o.length} observations: `, o)
-  }
+  //   try {
+  //     const r = await this.seedService.addAllLocations()
+  //     console.log(`Added ${r.length} locations:`, r)
+  //   } catch (error) {
+  //     console.warn(error)
+  //   }
+  // }
 }
