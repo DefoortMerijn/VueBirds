@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
-    "pwa" : "vue-tsc --noEmit && vite build && npx serve dist"
+    "pwa": "vue-tsc --noEmit && vite build && npx serve dist"
   },
   "dependencies": {
     "@apollo/client": "^3.7.0",
@@ -20,6 +20,7 @@
     "lucide-vue-next": "^0.90.0",
     "mapbox-gl": "^2.10.0",
     "npm": "^8.19.2",
+    "socket.io-client": "^4.5.3",
     "vite-plugin-fonts": "^0.6.0",
     "vue": "^3.2.37",
     "vue-router": "^4.1.5"
