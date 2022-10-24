@@ -8,6 +8,7 @@ import {
   ObjectIdColumn,
   UpdateDateColumn,
 } from 'typeorm'
+import { Role } from './role.entity'
 
 @Entity()
 @ObjectType({ description: 'observations' })
@@ -19,6 +20,10 @@ export class User {
   @Field()
   @Column({ unique: true })
   uid: string
+
+  @Field(() => Role, { nullable: true })
+  @Column({ default: { name: 'user' } })
+  role?: Role
 
   @Field(() => [Observation], { nullable: 'itemsAndList' })
   @Column({ nullable: true })
