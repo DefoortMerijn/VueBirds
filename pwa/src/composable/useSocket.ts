@@ -41,6 +41,7 @@ export default () => {
   const disconnectFromServer = () => {
     if (socketServer.value) {
       socketServer.value.disconnect()
+      socketServer.value = undefined
     }
   }
 

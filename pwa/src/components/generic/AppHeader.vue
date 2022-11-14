@@ -1,20 +1,25 @@
 <template>
-  <header class="bg-neutral-100 px-6 py-6">
+  <header class="px-6 py-6">
     <nav class="mx-auto flex max-w-6xl items-center justify-between">
-      <router-link to="/" class="rounded-md outline-none focus-visible:ring-2">
-        <Logo class="h-12 w-12 justify-start" />
+      <router-link class="rounded-md outline-none focus-visible:ring-2" to="/">
+        <Logo class="dark:fill-white" />
       </router-link>
-      <AppNav class="hidden sm:flex" />
+
+      <AppNavigation class="hidden sm:flex" />
     </nav>
   </header>
 </template>
 
 <script lang="ts">
+import AppNavigation from './AppNavigation.vue'
 import Logo from './Logo.vue'
-import AppNav from './AppNav.vue'
 
 export default {
+  components: {
+    AppNavigation,
+    Logo,
+  },
+
   setup() {},
-  components: { Logo, AppNav },
 }
 </script>

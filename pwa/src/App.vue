@@ -1,6 +1,6 @@
 <template>
   <router-view
-    class="min-h-screen bg-neutral-50 dark:bg-neutral-700"
+    class="@dark:bg-neutral-800 @dark:text-neutral-50 min-h-screen bg-neutral-50"
   ></router-view>
 </template>
 
@@ -9,20 +9,18 @@ import { provide } from '@vue/runtime-core'
 import { DefaultApolloClient } from '@vue/apollo-composable'
 
 import useGraphQL from './composable/useGraphQL'
-import { cp } from 'fs'
 import useCustomUser from './composable/useCustomUser'
 import useAuthentication from './composable/useAuthentication'
 
 export default {
   setup() {
-    const {user} = useAuthentication()
+    const { user } = useAuthentication()
     const { apolloClient } = useGraphQL()
-    const {loadCustomUser} = useCustomUser()
+    const { loadCustomUser } = useCustomUser()
 
     provide(DefaultApolloClient, apolloClient)
 
     if (user.value) loadCustomUser(user.value.uid)
-
 
     return {}
   },

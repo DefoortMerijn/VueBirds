@@ -8,21 +8,21 @@ import { GqlExecutionContext } from '@nestjs/graphql'
 import { UsersService } from 'src/users/users.service'
 
 export const RolesGuard = (roles: string[]) => {
-  @Injectable({})
+  @Injectable()
   class RolesGuardMixin implements CanActivate {
     constructor(readonly usersService: UsersService) {}
+
     async canActivate(context: ExecutionContext): Promise<boolean> {
       const ctx = GqlExecutionContext.create(context)
       const user = ctx.getContext().req.user
-      console.log({ user })
+      const { role } = await this.usersService.findOne(user.uid)
 
-      const { role } = await this.usersService.findOneByUid(user.uid)
-      console.log({ role })
-      // TODO: what if htere are no roles required?
-      //TODO: what if there are no roles on the user?
+      // TODO: what if there are no roles required?
+      // TODO: what if there are no roles on the user?
       return roles.includes(role.name)
     }
   }
-  const guard = RolesGuardMixin
+
+  const guard = mixin(RolesGuardMixin)
   return guard
 }

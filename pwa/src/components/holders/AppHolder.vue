@@ -1,20 +1,21 @@
 <template>
-    <div class="grid grid-rows-[auto_1fr_auto] min-h-screen h-screen sm:h-auto">
-        <AppHeader/>
-        <router-view class="overflow-y-auto"></router-view>
-        
-        <AppFooter/>
-    </div>
+  <div class="grid h-screen min-h-screen grid-rows-[auto_1fr_auto] sm:h-auto">
+    <AppHeader />
+
+    <router-view class="overflow-y-auto"></router-view>
+
+    <AppFooter />
+  </div>
 </template>
 
 <script lang="ts">
-import AppFooter from '../generic/AppFooter.vue';
-import AppHeader from '../generic/AppHeader.vue';
-    export default {
-        components: {
+import AppHeader from '../generic/AppHeader.vue'
+import AppFooter from '../generic/AppFooter.vue'
+
+export default {
+  components: {
+    AppHeader,
     AppFooter,
-    AppHeader
-    
-},
-    }
+  },
+}
 </script>

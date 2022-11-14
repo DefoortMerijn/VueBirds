@@ -13,7 +13,7 @@
   </template>
   
   <script lang="ts">
-  import AppNavigation from './AppNav.vue'
+  import AppNavigation from './AppNavigation.vue'
   export default {
     components: {
       AppNavigation,

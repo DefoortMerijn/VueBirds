@@ -1,10 +1,10 @@
-import Observation from "./interface.observation"
+import Observation from './interface.observation'
 
 export interface User {
   id?: string
   uid: string
   observations?: Observation[]
-  observationCount: number
+  observationsCount: number
   createdAt?: Date
   updatedAt?: Date
 }

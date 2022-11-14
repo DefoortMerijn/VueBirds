@@ -4,65 +4,85 @@
   >
     <li>
       <router-link
-        exact-active-class="text-cyan-500"
+        exact-active-class="opacity-40"
+        class="inline-block rounded-md px-3 py-6 outline-none focus-visible:ring-2"
         to="/"
-        class="inline-block rounded-md px-3 py-6 outline-none focus-visible:ring-2"
       >
-        <Home class="mx-auto mb-2 h-5 sm:hidden" /> Home
+        <Home class="mx-auto mb-2 h-5 sm:hidden" />
+        {{ $t('navigation.home') }}
       </router-link>
     </li>
+
     <li>
       <router-link
-        active-class="text-cyan-500"
+        active-class="opacity-40"
+        class="inline-block rounded-md px-3 py-6 outline-none focus-visible:ring-2"
         to="/birds"
-        class="inline-block rounded-md px-3 py-6 outline-none focus-visible:ring-2"
       >
-        <Feather class="mx-auto mb-2 h-5 sm:hidden" /> Birds
+        <Feather class="mx-auto mb-2 h-5 sm:hidden" />
+        {{ $t('navigation.birds') }}
       </router-link>
     </li>
+
     <li>
       <router-link
-        active-class="text-cyan-500"
-        to="/observations"
+        active-class="opacity-40"
         class="inline-block rounded-md px-3 py-6 outline-none focus-visible:ring-2"
+        to="/observations"
       >
-        <Scroll class="mx-auto mb-2 h-5 sm:hidden" />
-        Observations
+        <Clipboard class="mx-auto mb-2 h-5 sm:hidden" />
+        {{ $t('navigation.observations') }}
       </router-link>
     </li>
-    <li class="sm:hidden">
+
+    <li>
       <router-link
-        active-class="text-cyan-500"
+        active-class="opacity-40"
+        class="inline-block rounded-md px-3 py-6 outline-none focus-visible:ring-2 sm:hidden"
         to="/account"
-        class="inline-block rounded-md px-3 py-6 outline-none focus-visible:ring-2"
       >
-        <User class="mx-auto mb-2 h-5 sm:hidden" /> User
+        <User class="mx-auto mb-2 h-5 sm:hidden" />
+        {{ $t('navigation.user') }}
       </router-link>
     </li>
 
     <li class="hidden pl-6 sm:block">
       <router-link
-        active-class="text-cyan-500"
-        to="/account"
         class="inline-block rounded-md px-3 py-6 outline-none focus-visible:ring-2"
+        rounded-md
+        ring-2
+        to="/account"
+        v-if="user"
       >
-        {{ user ? user?.displayName : 'Login' }}
+        {{ user.displayName }}
+      </router-link>
+      <router-link
+        class="inline-block rounded-md px-3 py-6 outline-none focus-visible:ring-2"
+        rounded-md
+        ring-2
+        to="/auth/login"
+        v-else
+      >
+        Login
       </router-link>
     </li>
   </ul>
 </template>
 
 <script lang="ts">
+import { Home, Feather, User, Clipboard } from 'lucide-vue-next'
+
 import useAuthentication from '../../composable/useAuthentication'
-import { Home, Feather, Scroll, Clipboard, User } from 'lucide-vue-next'
 
 export default {
+  components: { Home, Feather, User, Clipboard },
+
   setup() {
     const { user } = useAuthentication()
+
     return {
       user,
     }
   },
-  components: { Home, Feather, Scroll, Clipboard, User },
 }
 </script>
