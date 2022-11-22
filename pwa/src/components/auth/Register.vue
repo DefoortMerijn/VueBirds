@@ -27,6 +27,7 @@
             id="name"
             name="name"
             v-model="userInput.name"
+            data-cy="name"
             class="border-1 text w-full rounded-md border-neutral-200 px-3 py-1 text-neutral-800 outline-none ring-neutral-300 focus-visible:ring-2"
           />
         </label>
@@ -42,8 +43,8 @@
             id="email"
             name="email"
             autocomplete="email"
+            data-cy="email"
             v-model="userInput.email"
-
             class="border-1 text w-full rounded-md border-neutral-200 px-3 py-1 text-neutral-800 outline-none ring-neutral-300 focus-visible:ring-2"
           />
         </label>
@@ -59,14 +60,16 @@
             id="password"
             name="password"
             autocomplete="current-password"
+            data-cy="password"
             v-model="userInput.password"
             class="border-1 text w-full rounded-md border-neutral-200 px-3 py-1 text-neutral-800 outline-none ring-neutral-300 focus-visible:ring-2"
           />
         </label>
       </div>
       <button
-        class="mt-6 flex w-full items-center justify-center rounded-md bg-neutral-700 py-2 px-3 text-white outline-none  ring-neutral-300 hover:bg-neutral-900 focus-visible:ring-2"
+        class="mt-6 flex w-full items-center justify-center rounded-md bg-neutral-700 py-2 px-3 text-white outline-none ring-neutral-300 hover:bg-neutral-900 focus-visible:ring-2"
         :disabled="loading"
+        data-cy="register"
       >
         <span v-if="!loading">Create Account</span>
         <div v-else>
@@ -88,8 +91,9 @@
 <script lang="ts">
 import { defineComponent, reactive, ref, Ref } from 'vue'
 import { X, Loader2 } from 'lucide-vue-next'
-import useAuthentication  from '../../composable/useAuthentication'
+import useAuthentication from '../../composable/useAuthentication'
 import { useRouter } from 'vue-router'
+import useCustomUser from '../../composable/useCustomUser'
 
 export default defineComponent({
   components: {
@@ -97,38 +101,49 @@ export default defineComponent({
     Loader2,
   },
   setup() {
-    const {replace} = useRouter()
-    const {register} = useAuthentication()
+    const { register } = useAuthentication()
+    const { createCustomUser } = useCustomUser()
+    const { replace } = useRouter()
     const errorMessage: Ref<string> = ref('')
     const loading: Ref<boolean> = ref(false)
-
-    const userInput= reactive({
-        name:"",
-        email:"",
-        password:"",
+    const userInput = reactive({
+      name: '',
+      email: '',
+      password: '',
     })
+
     const submitForm = () => {
-        loading.value = true
-        if(userInput.name === '' || userInput.email === '' || userInput.password === ''){
-            loading.value = false
-            errorMessage.value = "please fill in all fields"
-            return
-        }
-        
-        console.log(userInput)
-
-
-    register(userInput.name, userInput.email, userInput.password).then((u) => {
-        console.log('User created: ', u)
-        return replace ('/')
-        
-    }).catch((error) => {
-        errorMessage.value = error.message
-    }).finally(() => {
+      loading.value = true
+      if (
+        userInput.name === '' ||
+        userInput.email === '' ||
+        userInput.password === ''
+      ) {
         loading.value = false
-    })    
-}
-    
+        errorMessage.value = 'please fill in all fields'
+        return
+      }
+
+      console.log(userInput)
+
+      register(userInput.name, userInput.email, userInput.password)
+        .then((u) => {
+          // TODO: make a custom user in our own backend
+          // #1 Check graphql for needed values
+          // #2 Create a user in our own backend in composable
+          if (u.value) createCustomUser()
+
+          console.log('User created: ', u)
+          return replace('/')
+        })
+        .catch((error) => {
+          errorMessage.value = error.message
+        })
+        .finally(() => {
+          loading.value = false
+        })
+    }
+
     return {
       errorMessage,
       loading,

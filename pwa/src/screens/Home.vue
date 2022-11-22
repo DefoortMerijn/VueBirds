@@ -10,7 +10,9 @@
         Random birds
       </h2>
     </div>
-
+    <div>
+      <Demo />
+    </div>
     <div class="mb-6">
       <h2 class="font-theme mb-3 text-2xl font-medium tracking-wide">
         Top locations
@@ -35,11 +37,13 @@ import RouteHolder from '../components/holders/RouteHolder.vue'
 import MapView from '../components/generic/MapView.vue'
 import Location from '../interfaces/interface.location'
 import { LOCATIONS } from '../graphql/query.location'
+import Demo from '../components/Demo.vue'
 
 export default {
   components: {
     RouteHolder,
     MapView,
+    Demo,
   },
 
   setup() {

@@ -64,7 +64,7 @@ export class ObservationsResolver {
   findAll(@CurrentUser() user) {
     console.log(user.uid)
 
-    return this.observationsService.findAll()
+    return this.observationsService.findAll(user.uid)
   }
 
   @Query(() => Observation, { name: 'observation' })

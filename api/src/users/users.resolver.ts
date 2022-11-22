@@ -40,6 +40,8 @@ export class UsersResolver {
 
   @Query(() => User)
   findByUid(@Args('uid', { type: () => String }) uid: string) {
+    console.log(uid)
+
     return this.usersService.findOneByUid(uid)
   }
 

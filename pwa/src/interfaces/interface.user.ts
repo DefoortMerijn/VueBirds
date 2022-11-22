@@ -4,7 +4,7 @@ export interface User {
   id?: string
   uid: string
   observations?: Observation[]
-  observationsCount: number
+  observationCount: number
   createdAt?: Date
   updatedAt?: Date
 }

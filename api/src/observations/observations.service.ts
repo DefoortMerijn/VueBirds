@@ -18,8 +18,12 @@ export class ObservationsService {
     return this.observationRepository.save(createObservationInput)
   }
 
-  findAll(): Promise<Observation[]> {
-    return this.observationRepository.find()
+  findAll(uid?: string): Promise<Observation[]> {
+    if (!uid) return this.observationRepository.find()
+
+    return this.observationRepository.find({
+      where: { userId: uid },
+    })
   }
 
   findOne(id: string): Promise<Observation> {

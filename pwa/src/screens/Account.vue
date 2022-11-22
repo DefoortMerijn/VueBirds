@@ -14,7 +14,7 @@
         <h2 class="font-theme mb-3 text-2xl font-medium tracking-wide">
           Stats
         </h2>
-        <p>Birds spotted: {{ customUser?.observationsCount }}</p>
+        <p>Birds spotted: {{ customUser?.observationCount }}</p>
       </div>
 
       <div class="span-2">
@@ -34,7 +34,7 @@
         <label class="block" for="language"> Select language </label>
         <select
           id="language"
-          class="rounded-md bg-neutral-50 px-4 py-2 text-neutral-800"
+          class="rounded-md bg-neutral-50 px-4 py-2"
           @change="setLocale"
         >
           <option v-for="locale of AVAILABLE_LOCALES" :value="locale">
@@ -60,7 +60,7 @@ import RouteHolder from '../components/holders/RouteHolder.vue'
 import useAuthentication from '../composable/useAuthentication'
 import { useRouter } from 'vue-router'
 import useCustomUser from '../composable/useCustomUser'
-import ObservationsTable from '../components/observations/ObservationsTable.vue'
+import ObservationsTable from '../components/observation/ObservationsTable.vue'
 import useSocket from '../composable/useSocket'
 import usei18n from '../composable/usei18n'
 import { computed } from '@vue/reactivity'
@@ -96,7 +96,9 @@ export default {
     }
 
     const getToken = async () => {
-      // console.log(await user.value?.getIdToken())
+      console.log(
+        `{ "authorization": "Bearer ${await user.value?.getIdToken()}" }`,
+      )
     }
 
     getToken()
