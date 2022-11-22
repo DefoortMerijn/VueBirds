@@ -5,5 +5,13 @@ export default defineConfig({
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
-  }
+  },
+  env: {
+    APP_URL: 'http://localhost:5173',
+    FIREBASE_EMULATION_URL: 'http://localhost:9099',
+
+    USER: 'Vincent VanHogh',
+    EMAIL: 'VanHogh@howest.be',
+    PASSWORD: 'VanGogh123.',
+  },
 })

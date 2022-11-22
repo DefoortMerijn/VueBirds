@@ -11,7 +11,7 @@ export class FirebaseService {
     this.app = initializeApp({
       credential: applicationDefault(), //Not always the case!
     })
-    if (!this.app) {
+    if (!(this.app.options.credential as any).projectId) {
       throw new Error('No Firebase app instance')
     }
   }
